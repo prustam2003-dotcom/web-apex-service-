@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Личный кабинет — Apex Service</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141210;
+    --orange:#FF6A00;
+    --orange-soft:#FFCFA3;
+    --champagne:#E8C88A;
+    --champagne-dim:#B9A06B;
+    --blue-tile:#4A6FA5;
+    --stone:#F2EDE1;
+    --stone-card:#FFFCF6;
+    --line:#E3DBC5;
+    --muted:#6E6659;
+    --white:#FFFFFF;
+    --text:#141210;
+  }
+  body.night{
+    --stone:#121110;
+    --stone-card:#1C1A17;
+    --line:#332F29;
+    --muted:#9C968A;
+    --text:#F3F1EC;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--ink);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  a{ color:inherit; text-decoration:none; }
+  h1,h2,h3{ font-family:'Playfair Display',serif; letter-spacing:-.005em; }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{ display:flex; align-items:center; justify-content:space-between; padding:22px 32px; max-width:1100px; margin:0 auto; }
+  .logo{ display:flex; align-items:center; gap:11px; font-family:'Inter',sans-serif; font-weight:300; font-size:12.5px; letter-spacing:.24em; text-transform:uppercase; color:var(--white); }
+  .logo-mark{ width:20px; height:20px; color:var(--white); flex-shrink:0; }
+  .back-link{ display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#C9C4BA; transition:color .15s; }
+  .back-link:hover{ color:var(--white); }
+  .back-link svg{ width:15px; height:15px; }
+
+  /* ---------- HERO STRIP (unauth) ---------- */
+  .auth-shell{
+    min-height:calc(100vh - 76px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 20px 80px;
+    position:relative;
+    overflow:hidden;
+  }
+  .auth-shell::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(255,106,0,.06) 0 2px, transparent 2px 34px),
+      repeating-linear-gradient(-45deg, rgba(255,106,0,.06) 0 2px, transparent 2px 34px);
+    -webkit-mask-image: radial-gradient(ellipse 900px 500px at 50% 20%, black, transparent 70%);
+            mask-image: radial-gradient(ellipse 900px 500px at 50% 20%, black, transparent 70%);
+    pointer-events:none;
+  }
+  .auth-card{
+    position:relative; z-index:2;
+    background:var(--stone-card);
+    border-radius:26px;
+    width:100%; max-width:420px;
+    padding:40px 34px 34px;
+    box-shadow:0 60px 100px -30px rgba(0,0,0,.6);
+  }
+  .auth-eyebrow{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); font-weight:700; margin-bottom:12px; }
+  .auth-card h1{ font-size:25px; font-weight:600; color:var(--text); margin-bottom:10px; }
+  .auth-sub{ font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:28px; }
+  .form-group{ margin-bottom:16px; }
+  .form-label{ display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:7px; }
+  .form-input{ width:100%; background:var(--stone); border:1px solid var(--line); border-radius:11px; padding:13px 14px; font-family:'Manrope',sans-serif; font-size:14.5px; color:var(--text); }
+  .form-input:focus{ outline:none; border-color:var(--orange); }
+  .btn-primary{ width:100%; justify-content:center; background:linear-gradient(155deg,var(--orange),#C9860B); color:var(--white); font-weight:700; font-size:14.5px; padding:15px 26px; border-radius:12px; display:inline-flex; align-items:center; gap:8px; border:none; cursor:pointer; font-family:'Manrope',sans-serif; transition:transform .18s cubic-bezier(.16,1,.3,1), box-shadow .18s; margin-top:6px; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 30px -12px rgba(255,106,0,.55); }
+  .auth-note{ margin-top:20px; font-size:11.5px; color:var(--muted); text-align:center; line-height:1.6; }
+
+  /* ---------- DASHBOARD (auth) ---------- */
+  .dash-shell{ background:var(--stone); min-height:calc(100vh - 76px); border-radius:32px 32px 0 0; padding:52px 32px 80px; }
+  .dash-wrap{ max-width:1000px; margin:0 auto; }
+  .dash-head{ display:flex; align-items:center; gap:18px; margin-bottom:44px; flex-wrap:wrap; }
+  .dash-avatar{ width:64px; height:64px; border-radius:18px; background:linear-gradient(155deg,var(--orange),#C9860B); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; color:#fff; font-size:24px; flex-shrink:0; box-shadow:0 16px 30px -12px rgba(255,106,0,.5); }
+  .dash-greet-label{ font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--orange); font-weight:700; margin-bottom:5px; }
+  .dash-name{ font-family:'Playfair Display',serif; font-size:24px; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .dash-unit{ font-size:13px; color:var(--muted); }
+  .dash-logout{ margin-left:auto; font-size:12.5px; font-weight:600; color:var(--muted); cursor:pointer; padding:10px 16px; border:1px solid var(--line); border-radius:10px; transition:color .15s, border-color .15s; }
+  .dash-logout:hover{ color:#B5482F; border-color:#B5482F; }
+
+  .dash-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:44px; }
+  .stat-card{ background:var(--stone-card); border:1px solid var(--line); border-radius:18px; padding:22px; }
+  .stat-card-label{ font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; margin-bottom:10px; }
+  .stat-card-val{ font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--text); }
+
+  .dash-section{ background:var(--stone-card); border:1px solid var(--line); border-radius:22px; padding:30px 28px; }
+  .dash-section-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+  .dash-section-head h2{ font-size:19px; font-weight:600; color:var(--text); }
+  .dash-add-btn{ display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:700; color:var(--white); background:linear-gradient(155deg,var(--orange),#C9860B); padding:9px 16px; border-radius:10px; cursor:pointer; border:none; font-family:'Manrope',sans-serif; }
+  .dash-add-btn svg{ width:13px; height:13px; }
+
+  .car-add-form{ display:none; gap:10px; margin-bottom:20px; flex-wrap:wrap; background:var(--stone); border:1px solid var(--line); border-radius:14px; padding:16px; }
+  .car-add-form.open{ display:flex; }
+  .car-add-form input{ flex:1; min-width:140px; }
+  .car-add-form button{ flex-shrink:0; padding:12px 18px; border:none; cursor:pointer; font-family:'Manrope',sans-serif; border-radius:10px; }
+
+  .car-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:14px; }
+  .car-card{ background:var(--stone); border:1px solid var(--line); border-radius:16px; padding:18px; position:relative; }
+  .car-card-ic{ width:40px; height:40px; border-radius:11px; background:rgba(255,106,0,.12); color:var(--orange); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+  .car-card-ic svg{ width:19px; height:19px; }
+  .car-card-model{ font-size:14.5px; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .car-card-plate{ font-size:12.5px; color:var(--muted); letter-spacing:.03em; }
+  .car-remove{ position:absolute; top:14px; right:14px; width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center; color:var(--muted); cursor:pointer; }
+  .car-remove svg{ width:12px; height:12px; }
+  .car-remove:hover{ background:rgba(181,72,47,.14); color:#B5482F; }
+  .car-empty{ font-size:13px; color:var(--muted); padding:30px 0; text-align:center; grid-column:1/-1; }
+
+  @media (max-width:760px){
+    .topbar{ padding:18px 20px; }
+    .auth-card{ padding:30px 22px 26px; }
+    .dash-shell{ padding:40px 18px 60px; border-radius:24px 24px 0 0; }
+    .dash-grid{ grid-template-columns:1fr; }
+    .dash-section{ padding:22px 18px; }
+    .dash-logout{ margin-left:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="apex-service.html" class="logo">
+    <svg class="logo-mark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6 32L20 8l14 24"/>
+      <circle cx="20" cy="8" r="2.6" fill="var(--orange)" stroke="none"/>
+    </svg>
+    Apex Service
+  </a>
+  <a href="apex-service.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5M5 12L11 6M5 12L11 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    На сайт
+  </a>
+</div>
+
+<div id="authShell" class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-eyebrow">Вход резидента</div>
+    <h1>Личный кабинет</h1>
+    <p class="auth-sub">Оплата, заявки, брони и ваши автомобили — в одном месте. Вход по номеру квартиры и телефону.</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label">Имя</label>
+        <input class="form-input" type="text" id="loginName" placeholder="Дилноза" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Блок и квартира</label>
+        <input class="form-input" type="text" id="loginUnit" placeholder="Блок B, кв. 204" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Телефон</label>
+        <input class="form-input" type="tel" id="loginPhone" placeholder="+998 90 123-45-67" required>
+      </div>
+      <button type="submit" class="btn-primary">Войти в кабинет</button>
+    </form>
+    <p class="auth-note">Демо-версия: данные сохраняются только в вашем браузере, без реального сервера и пароля.</p>
+  </div>
+</div>
+
+<div id="dashShell" class="dash-shell" style="display:none;">
+  <div class="dash-wrap">
+    <div class="dash-head">
+      <div class="dash-avatar" id="accAvatar">Д</div>
+      <div>
+        <div class="dash-greet-label">С возвращением</div>
+        <div class="dash-name" id="accName">Дилноза</div>
+        <div class="dash-unit" id="accUnit">Блок B, кв. 204</div>
+      </div>
+      <div class="dash-logout" onclick="logout()">Выйти из аккаунта</div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">К оплате за август</div>
+        <div class="stat-card-val">842 000 сум</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Открытых заявок</div>
+        <div class="stat-card-val">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Моих автомобилей</div>
+        <div class="stat-card-val" id="carCount">0</div>
+      </div>
+    </div>
+
+    <div class="dash-section">
+      <div class="dash-section-head">
+        <h2>Мои автомобили</h2>
+        <button class="dash-add-btn" onclick="toggleCarForm()" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          Добавить
+        </button>
+      </div>
+      <div class="car-add-form" id="carAddForm">
+        <input class="form-input" type="text" id="carModel" placeholder="Марка и модель">
+        <input class="form-input" type="text" id="carPlate" placeholder="Гос. номер">
+        <button class="btn-primary" onclick="addCar()" type="button">Сохранить</button>
+      </div>
+      <div class="car-grid" id="carGrid"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentUser = null;
+  let cars = [];
+
+  function loadAccount(){
+    try{
+      const u = localStorage.getItem('apex-user');
+      const c = localStorage.getItem('apex-cars');
+      const t = localStorage.getItem('apex-theme');
+      if(u) currentUser = JSON.parse(u);
+      if(c) cars = JSON.parse(c);
+      if(t === 'night') document.body.classList.add('night');
+    }catch(e){}
+  }
+  function saveAccount(){
+    try{
+      localStorage.setItem('apex-user', JSON.stringify(currentUser));
+      localStorage.setItem('apex-cars', JSON.stringify(cars));
+    }catch(e){}
+  }
+
+  function render(){
+    const authShell = document.getElementById('authShell');
+    const dashShell = document.getElementById('dashShell');
+    if(currentUser){
+      authShell.style.display = 'none';
+      dashShell.style.display = 'block';
+      document.getElementById('accName').textContent = currentUser.name;
+      document.getElementById('accUnit').textContent = currentUser.unit;
+      document.getElementById('accAvatar').textContent = (currentUser.name.trim()[0] || '?').toUpperCase();
+      renderCars();
+    } else {
+      authShell.style.display = 'flex';
+      dashShell.style.display = 'none';
+    }
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderCars(){
+    const grid = document.getElementById('carGrid');
+    grid.innerHTML = '';
+    document.getElementById('carCount').textContent = cars.length;
+    if(cars.length === 0){
+      grid.innerHTML = '<div class="car-empty">Пока нет добавленных автомобилей — нажмите «Добавить»</div>';
+      return;
+    }
+    cars.forEach((car, i) => {
+      const card = document.createElement('div');
+      card.className = 'car-card';
+      card.innerHTML =
+        '<div class="car-remove" data-idx="' + i + '"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>' +
+        '<div class="car-card-ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16V11L6 6H18L20 11V16" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="7.5" cy="16.5" r="1.6" fill="currentColor"/><circle cx="16.5" cy="16.5" r="1.6" fill="currentColor"/></svg></div>' +
+        '<div class="car-card-model">' + escapeHtml(car.model) + '</div>' +
+        '<div class="car-card-plate">' + escapeHtml(car.plate) + '</div>';
+      grid.appendChild(card);
+    });
+    grid.querySelectorAll('.car-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        cars.splice(parseInt(btn.getAttribute('data-idx')), 1);
+        saveAccount();
+        renderCars();
+      });
+    });
+  }
+
+  function toggleCarForm(){
+    document.getElementById('carAddForm').classList.toggle('open');
+  }
+
+  function addCar(){
+    const model = document.getElementById('carModel').value.trim();
+    const plate = document.getElementById('carPlate').value.trim();
+    if(!model || !plate) return;
+    cars.push({ model, plate });
+    saveAccount();
+    document.getElementById('carModel').value = '';
+    document.getElementById('carPlate').value = '';
+    document.getElementById('carAddForm').classList.remove('open');
+    renderCars();
+  }
+
+  function logout(){
+    currentUser = null;
+    cars = [];
+    try{ localStorage.removeItem('apex-user'); localStorage.removeItem('apex-cars'); }catch(e){}
+    render();
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    currentUser = {
+      name: document.getElementById('loginName').value.trim(),
+      unit: document.getElementById('loginUnit').value.trim(),
+      phone: document.getElementById('loginPhone').value.trim()
+    };
+    saveAccount();
+    render();
+  });
+
+  loadAccount();
+  render();
+</script>
+
+</body>
+</html>

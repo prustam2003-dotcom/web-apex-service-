@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apex Service — варианты логотипа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E1B18;
+    --orange:#FF6A00;
+    --stone:#F3F1EC;
+    --stone-card:#FFFFFF;
+    --line:#E7E2D8;
+    --muted:#6E6A62;
+    --text:#1E1B18;
+  }
+  body.night{
+    --stone:#121110;
+    --stone-card:#1C1A17;
+    --line:#332F29;
+    --muted:#9C968A;
+    --text:#F3F1EC;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--stone);
+    font-family:'Inter',sans-serif;
+    color:var(--text);
+    padding:48px 20px 80px;
+    transition:background .25s, color .25s;
+  }
+  .wrap{ max-width:960px; margin:0 auto; }
+  .top-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:20px; margin-bottom:36px; flex-wrap:wrap; }
+  .page-head{ max-width:540px; }
+  .page-eyebrow{ font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); font-weight:700; margin-bottom:12px; }
+  .page-head h1{ font-family:'Unbounded',sans-serif; font-size:23px; font-weight:700; margin-bottom:10px; color:var(--text); }
+  .page-head p{ font-size:14px; color:var(--muted); line-height:1.6; }
+
+  .mode-toggle{ display:flex; align-items:center; gap:2px; background:var(--stone-card); border:1px solid var(--line); border-radius:24px; padding:4px; flex-shrink:0; }
+  .mode-btn{ font-size:12.5px; font-weight:600; padding:9px 16px; border-radius:20px; cursor:pointer; color:var(--muted); display:flex; align-items:center; gap:6px; }
+  .mode-btn.active{ background:var(--orange); color:#fff; }
+
+  .section-label{ font-family:'Unbounded',sans-serif; font-size:12px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin:38px 0 16px; }
+  .section-label:first-of-type{ margin-top:0; }
+
+  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .card{ background:var(--stone-card); border:1px solid var(--line); border-radius:18px; overflow:hidden; transition:background .25s, border-color .25s; }
+  .card-name{ font-family:'Unbounded',sans-serif; font-size:13.5px; font-weight:600; margin:18px 20px 4px; color:var(--text); }
+  .card-desc{ font-size:12px; color:var(--muted); margin:0 20px 18px; line-height:1.55; }
+
+  .swatches{ display:flex; }
+  .swatch{ flex:1; height:118px; display:flex; align-items:center; justify-content:center; }
+  .swatch.light{ background:#FAF9F6; }
+  .swatch.dark{ background:#161412; }
+
+  .lockup{ display:flex; align-items:center; gap:11px; }
+  .lockup.stacked{ flex-direction:column; gap:8px; }
+  .word-light{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:16px; color:#1E1B18; letter-spacing:-.01em; }
+  .word-dark{ font-family:'Unbounded',sans-serif; font-weight:700; font-size:16px; color:#fff; letter-spacing:-.01em; }
+  .word-sub{ font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:#8A857A; margin-top:1px; }
+  .word-sub.dark{ color:#8A857A; }
+
+  .thin-light{ font-family:'Inter',sans-serif; font-weight:300; font-size:13px; letter-spacing:.24em; text-transform:uppercase; color:#1E1B18; }
+  .thin-dark{ font-family:'Inter',sans-serif; font-weight:300; font-size:13px; letter-spacing:.24em; text-transform:uppercase; color:#fff; }
+  .rule{ width:100%; height:1px; background:currentColor; opacity:.35; margin:7px 0; }
+
+  @media (max-width:640px){ .grid{ grid-template-columns:1fr; } .top-row{ flex-direction:column; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top-row">
+    <div class="page-head">
+      <div class="page-eyebrow">Варианты · Apex Service</div>
+      <h1>Направления логотипа</h1>
+      <p>Первые четыре — концептуальные знаки. Следующие три — люкс-направление: тоньше линии, меньше формы, больше воздуха. Переключите фон страницы, чтобы проверить в контексте дня и ночи.</p>
+    </div>
+    <div class="mode-toggle">
+      <div class="mode-btn active" id="btnDay" onclick="setMode(false)">☀ День</div>
+      <div class="mode-btn" id="btnNight" onclick="setMode(true)">☾ Ночь</div>
+    </div>
+  </div>
+
+  <div class="section-label">Концептуальные знаки</div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-name">A · Wordmark</div>
+      <div class="card-desc">Без иконки. Сама типографика работает как знак — приём премиальных сервисов, которые не плодят «квадратик с буквой».</div>
+      <div class="swatches">
+        <div class="swatch light"><div class="word-light">apex<span style="color:var(--orange)">.</span>service</div></div>
+        <div class="swatch dark"><div class="word-dark">apex<span style="color:var(--orange)">.</span>service</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">B · Архитектурный знак</div>
+      <div class="card-desc">Буква A как силуэт фасада, одна грань — оранжевая. Отсылка к архитектуре самого комплекса.</div>
+      <div class="swatches">
+        <div class="swatch light">
+          <div class="lockup">
+            <svg width="32" height="32" viewBox="0 0 40 40"><polygon points="20,4 36,34 26,34 20,20 14,34 4,34" fill="#1E1B18"/><polygon points="20,4 26,34 20,20" fill="var(--orange)"/></svg>
+            <div><div class="word-light" style="font-size:14.5px;">Apex Service</div><div class="word-sub">Mirabad Square</div></div>
+          </div>
+        </div>
+        <div class="swatch dark">
+          <div class="lockup">
+            <svg width="32" height="32" viewBox="0 0 40 40"><polygon points="20,4 36,34 26,34 20,20 14,34 4,34" fill="#fff"/><polygon points="20,4 26,34 20,20" fill="var(--orange)"/></svg>
+            <div><div class="word-dark" style="font-size:14.5px;">Apex Service</div><div class="word-sub dark">Mirabad Square</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">C · Сквер-парк</div>
+      <div class="card-desc">Квадрат — квартал, точка внутри — сквер-парк на платформе. Знак читается как план двора сверху.</div>
+      <div class="swatches">
+        <div class="swatch light">
+          <div class="lockup">
+            <svg width="32" height="32" viewBox="0 0 40 40"><rect x="4" y="4" width="32" height="32" rx="9" fill="none" stroke="#1E1B18" stroke-width="2.6"/><circle cx="20" cy="20" r="6" fill="var(--orange)"/></svg>
+            <div><div class="word-light" style="font-size:14.5px;">Apex Service</div><div class="word-sub">Mirabad Square</div></div>
+          </div>
+        </div>
+        <div class="swatch dark">
+          <div class="lockup">
+            <svg width="32" height="32" viewBox="0 0 40 40"><rect x="4" y="4" width="32" height="32" rx="9" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="20" cy="20" r="6" fill="var(--orange)"/></svg>
+            <div><div class="word-dark" style="font-size:14.5px;">Apex Service</div><div class="word-sub dark">Mirabad Square</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">D · Печать доступа</div>
+      <div class="card-desc">Круглая печать с засечкой EasyKey — ощущение защищённости и членства, как ключ-карта резидента.</div>
+      <div class="swatches">
+        <div class="swatch light">
+          <div class="lockup">
+            <svg width="32" height="32" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#1E1B18"/><path d="M20 11l7 4v7c0 5-3 7.5-7 9-4-1.5-7-4-7-9v-7z" fill="none" stroke="var(--orange)" stroke-width="2"/></svg>
+            <div><div class="word-light" style="font-size:14.5px;">Apex Service</div><div class="word-sub">Mirabad Square</div></div>
+          </div>
+        </div>
+        <div class="swatch dark">
+          <div class="lockup">
+            <svg width="32" height="32" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="var(--orange)"/><path d="M20 11l7 4v7c0 5-3 7.5-7 9-4-1.5-7-4-7-9v-7z" fill="none" stroke="#1E1B18" stroke-width="2"/></svg>
+            <div><div class="word-dark" style="font-size:14.5px;">Apex Service</div><div class="word-sub dark">Mirabad Square</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Люкс-направление</div>
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-name">E · Тонкая линия с правилом</div>
+      <div class="card-desc">Всё строится на разрядке букв и тонкой линии — приём модных домов и отельных брендов: минимум формы, максимум воздуха.</div>
+      <div class="swatches">
+        <div class="swatch light">
+          <div class="lockup stacked">
+            <div class="thin-light">Apex <span style="color:var(--orange)">·</span> Service</div>
+            <div class="rule" style="color:#1E1B18; width:120px;"></div>
+            <div style="font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:#8A857A;">Mirabad Square</div>
+          </div>
+        </div>
+        <div class="swatch dark">
+          <div class="lockup stacked">
+            <div class="thin-dark">Apex <span style="color:var(--orange)">·</span> Service</div>
+            <div class="rule" style="color:#fff; width:120px;"></div>
+            <div style="font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:#8A857A;">Mirabad Square</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-name">F · Монограмма AS</div>
+      <div class="card-desc">A и S сплетены в одну линию без разрыва — как монограммы ювелирных и часовых домов. Один контур, без заливки.</div>
+      <div class="swatches">
+        <div class="swatch light">
+          <div class="lockup">
+            <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="#1E1B18" stroke-width="1.4">
+              <path d="M8 33L18 9l10 24"/><path d="M11.5 24h13"/>
+              <path d="M25 33c3 2 9 2 9-3 0-4-9-4-9-8 0-4 6-5 9-3" stroke="var(--orange)"/>
+            </svg>
+            <div><div class="word-light" style="font-size:14.5px;">Apex Service</div><div class="word-sub">Mirabad Square</div></div>
+          </div>
+        </div>
+        <div class="swatch dark">
+          <div class="lockup">
+            <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="#fff" stroke-width="1.4">
+              <path d="M8 33L18 9l10 24"/><path d="M11.5 24h13"/>
+              <path d="M25 33c3 2 9 2 9-3 0-4-9-4-9-8 0-4 6-5 9-3" stroke="var(--orange)"/>
+            </svg>
+            <div><div class="word-dark" style="font-size:14.5px;">Apex Service</div><div class="word-sub dark">Mirabad Square</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column:1 / -1;">
+      <div class="card-name">G · Апекс — вершина</div>
+      <div class="card-desc">Буквальное прочтение имени: тонкий контур пика, оранжевая вершина. Единственный акцент — точка на самом верху, остальное — воздух.</div>
+      <div class="swatches">
+        <div class="swatch light">
+          <div class="lockup">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="#1E1B18" stroke-width="1.6"><path d="M6 32L20 8l14 24"/><circle cx="20" cy="8" r="2.6" fill="var(--orange)" stroke="none"/></svg>
+            <div><div class="thin-light" style="font-size:12px;">Apex Service</div></div>
+          </div>
+        </div>
+        <div class="swatch dark">
+          <div class="lockup">
+            <svg width="30" height="30" viewBox="0 0 40 40" fill="none" stroke="#fff" stroke-width="1.6"><path d="M6 32L20 8l14 24"/><circle cx="20" cy="8" r="2.6" fill="var(--orange)" stroke="none"/></svg>
+            <div><div class="thin-dark" style="font-size:12px;">Apex Service</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function setMode(night){
+    document.body.classList.toggle('night', night);
+    document.getElementById('btnDay').classList.toggle('active', !night);
+    document.getElementById('btnNight').classList.toggle('active', night);
+  }
+</script>
+</body>
+</html>
